@@ -6,10 +6,6 @@ let readData = async (fileName) => {
 	return await readFile(fileName, 'utf8');
 }
 
-Array.prototype.indicesOf = function(x){
-	return this.reduce((p,c,i) => c === x ? p.concat(i) : p ,[]);
-}
-
 let game = (player_amnt, last_marble) => {
 	let turn = 1
 	let current_marble = 1
