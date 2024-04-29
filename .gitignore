@@ -1,3 +1,16 @@
 .DS_Store
 trash/
 pic/
+inputs/*.txt
+.env
+
+/_build
+/cover
+/deps
+/doc
+/.fetch
+erl_crash.dump
+*.ez
+*.beam
+/config/*.secret.exs
+.elixir_ls/

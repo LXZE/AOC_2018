@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "run elixir",
+			"type": "shell",
+			"command": "timeout 60 mix run ${relativeFile} --require lib/utils.exs --no-compile",
+			"problemMatcher": []
+		},
+		{
+			"label": "run test elixir",
+			"type": "shell",
+			"command": "timeout 60 mix run ${relativeFile} --require lib/utils.exs --no-compile --test",
+			"problemMatcher": []
+		},
+		// {
+		// 	"label": "auto run elixir",
+		// 	"type": "shell",
+		// 	"command": "(cd ${fileDirname}; onchange -ik ${file} -- sh -c 'clear; timeout 3 elixir ${fileBasename}')",
+		// 	"problemMatcher": [],
+		// 	"group": {
+		// 		"kind": "build",
+		// 		"isDefault": true
+		// 	}
+		// },
+		{
+			"label": "run python",
+			"type": "shell",
+			"command": "(cd ${fileDirname} && timeout 3 python ${fileBasename})",
+			"problemMatcher": []
+		}
+	]
+}
