@@ -10,35 +10,45 @@ defmodule Utils do
       {execTime, res} = Benchmark.measure(fn ->
         solutionModule.part1(input |> String.split("\n"))
       end)
-      IO.puts("Expect: #{expect}")
-      IO.puts("Result: #{res}")
-      IO.puts("Exec time: #{Benchmark.format(execTime)}")
-      IO.puts("Part 1: " <> (res == expect && "Correct" || "Incorrect"))
+      if not is_nil(res) do
+        IO.puts("Expect: #{expect}")
+        IO.puts("Result: #{res}")
+        IO.puts("Exec time: #{Benchmark.format(execTime)}")
+        IO.puts("Part 1: " <> (res == expect && "Correct" || "Incorrect"))
+      else
+        IO.puts("Part 1: unsolved")
+      end
     end
-    IO.puts("\n")
+    IO.puts("")
     for {input, expect} <- testData[:part2] do
-        {execTime, res} = Benchmark.measure(fn ->
-          solutionModule.part2(input |> String.split("\n"))
-        end)
+      {execTime, res} = Benchmark.measure(fn ->
+        solutionModule.part2(input |> String.split("\n"))
+      end)
+      if not is_nil(res) do
         IO.puts("Expect: #{expect}")
         IO.puts("Result: #{res}")
         IO.puts("Exec time: #{Benchmark.format(execTime)}")
         IO.puts("Part 2: " <> (res == expect && "Correct" || "Incorrect"))
+      else IO.puts("Part 2: unsolved") end
     end
-    IO.puts("\n")
+    IO.puts("")
   end
 
   def solveReal(solutionModule, date) do
     IO.puts("-- Actual data -- \n")
     input = getData(date)
     {execTime, res} = Benchmark.measure(fn -> solutionModule.part1(input) end)
-    IO.puts("Part 1: #{res}")
-    IO.puts("Exec time: #{Benchmark.format(execTime)}")
-    IO.puts("\n")
+    if not is_nil(res) do
+      IO.puts("Part 1: #{res}")
+      IO.puts("Exec time: #{Benchmark.format(execTime)}")
+      IO.puts("")
+    end
     {execTime, res} = Benchmark.measure(fn -> solutionModule.part2(input) end)
-    IO.puts("Part 2: #{res}")
-    IO.puts("Exec time: #{Benchmark.format(execTime)}")
-    IO.puts("\n")
+    if not is_nil(res) do
+      IO.puts("Part 2: #{res}")
+      IO.puts("Exec time: #{Benchmark.format(execTime)}")
+      IO.puts("")
+    end
   end
 
   def solve(date, module, testData) do
@@ -55,9 +65,11 @@ defmodule Benchmark do
     function |> :timer.tc
   end
 
+  def prettify(time), do: :erlang.float_to_binary(time, [:compact, decimals: 4])
+
   def format(time), do: format(time, -6)
   def format(time, unit) when time > 1000, do: format(time / 1000, unit+3)
-  def format(time, 0), do: "#{time} seconds"
-  def format(time, -3), do: "#{time} ms"
-  def format(time, -6), do: "#{time} µs"
+  def format(time, 0), do: "#{prettify(time)} seconds"
+  def format(time, -3), do: "#{prettify(time)} ms"
+  def format(time, -6), do: "#{prettify(time)} µs"
 end
