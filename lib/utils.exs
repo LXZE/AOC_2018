@@ -1,6 +1,6 @@
 defmodule Utils do
   def getData(date) do
-    File.stream!('inputs/#{date}.txt')
+    File.stream!("inputs/#{date}.txt")
     |> Enum.map(&String.trim/1)
   end
 
@@ -65,7 +65,8 @@ defmodule Benchmark do
     function |> :timer.tc
   end
 
-  def prettify(time), do: :erlang.float_to_binary(time, [:compact, decimals: 4])
+  def prettify(time) when is_float(time), do: :erlang.float_to_binary(time, [:compact, decimals: 4])
+  def prettify(time) when is_integer(time), do: Integer.to_string(time)
 
   def format(time), do: format(time, -6)
   def format(time, unit) when time > 1000, do: format(time / 1000, unit+3)

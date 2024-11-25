@@ -2,7 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "run elixir",
+			"label": "run full elixir",
 			"type": "shell",
 			"command": "timeout 60 mix run ${relativeFile} --require lib/utils.exs --no-compile",
 			"problemMatcher": []

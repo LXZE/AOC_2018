@@ -1,0 +1,61 @@
+; seti A _ 3 == absolute jump with value A
+; setr A _ 3 == absolute jump with value from A
+
+; addi 3 B 3 == relative jump with value B
+; addr A 3 3 == relative jump with value from A
+; addr 3 B 3 == relative jump with value from B
+
+; https://www.reddit.com/r/adventofcode/comments/a7j9zc/comment/ec3v5ud/
+
+#ip 3 [1, 0, 0, 0(IP), 0, 0]
+00 | addi 3 16 3; ip += 16 -> goto 17
+; [0, 0, 0, 16, 0, 0]
+
+01 | seti 1 0 4; reg[4] = 1
+02 | seti 1 0 1; reg[1] = 1
+03 | mulr 4 1 5; reg[5] = reg[4] * reg[1]
+04 | eqrr 5 2 5; reg[5] = reg[5] == reg[2] ? 1 : 0
+05 | addr 5 3 3; ip += reg[5] # skip next line to 07 (r2 == r4*r1)
+06 | addi 3 1 3; ip += 1 # skip next line to 08 (r2 != r4*r1)
+07 | addr 4 0 0; reg[0] += reg[4] # r0 += r4
+08 | addi 1 1 1; reg[1] += 1 # (r2 != r4*r1)
+09 | gtrr 1 2 5; reg[5] = reg[1] > reg[2] ? 1 : 0
+10 | addr 3 5 3; ip += reg[5] # skip if reg[1] > reg[2]
+11 | seti 2 9 3; ip = 2; jump to 02
+12 | addi 4 1 4; reg[4] += 1
+13 | gtrr 4 2 5; reg[5] = reg[4] > reg[2] ? 1 : 0
+14 | addr 5 3 3; ip += reg[5] # skip next line if reg[4] > reg[2]
+15 | seti 1 2 3; ip = 1
+16 | mulr 3 3 3; ip = ip * ip; exit
+
+for r4 in 1..r2:
+    for r1 in 1..r2:
+        if r1 * r4 == r2:
+            r0 += r4
+return r0
+; sum all divisor from 1 to n
+
+
+17 | addi 2 2 2; reg[2] += 2
+18 | mulr 2 2 2; reg[2] = reg[2] * reg[2]
+19 | mulr 3 2 2; reg[2] = ip * reg[2]
+20 | muli 2 11 2; reg[2] = reg[2] * 11
+21 | addi 5 4 5; reg[5] += 4
+22 | mulr 5 3 5; reg[5] = ip * reg[5]
+23 | addi 5 16 5; reg[5] += 16
+24 | addr 2 5 2; reg[2] += reg[5]
+25 | addr 3 0 3; ip += reg[0] this skip on part 2 as reg[0] == 1
+26 | seti 0 8 3; ip = 0
+; r2 = 940
+
+27 | setr 3 2 5
+28 | mulr 5 3 5
+29 | addr 3 5 5
+30 | mulr 3 5 5
+31 | muli 5 14 5
+32 | mulr 5 3 5
+33 | addr 2 5 2
+34 | seti 0 0 0; r0 = 0
+35 | seti 0 0 3; ip = 0 -> go to 1
+; r5 = 10550400
+; r2 = 940 + r5 = 10551340
